@@ -1,0 +1,20 @@
+---
+title: "p8105_hw3_lz2951"
+author: "lz2951"
+date: "2023-10-07"
+output: github_document
+---
+
+# Packages used
+
+```{r}
+library(p8105.datasets)
+library(tidyverse)
+```
+
+# Problem 1
+
+```{r}
+data("instacart")
+```
+
