@@ -24,7 +24,9 @@ data("instacart")
 
 The dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns. Each row is a product from an order and each column is a variable. The 15 variables are: `r colnames(instacart)`. Take the observation `r instacart[1,]` as an example, it shows a `r instacart[1,]$product_name` with product id `r instacart[1,]$product_id` bought at `r instacart[1,]$order_hour_of_day` o'clock of the `r instacart[1,]$order_dow`th day of the week by a user with user id `r instacart[1,]$user_id`. This product purchase belongs to the order with order id `r instacart[1,]$order_id` and order sequence order `r instacart[1,]$order_number`, in which the order of this product to be added to the cart is `r instacart[1,]$add_to_cart_order`. It has been `r instacart[1,]$days_since_prior_order` days since the last order. The yogurt has been ordered by the user in the past, and belongs to the aisle `r instacart[1,]$aisle` with aisle id `r instacart[1,]$aisle_id` and department `r instacart[1,]$department` with department id `r instacart[1,]$department_id`. The evaluation set this order belongs in is `r instacart[1,]$eval_set`.
 
+## Some key questions about dataset
 
+- How many aisles are there, and which aisles are the most items ordered from?
 
 
 
