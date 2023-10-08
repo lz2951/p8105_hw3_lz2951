@@ -28,9 +28,66 @@ The dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns. E
 
 - How many aisles are there, and which aisles are the most items ordered from?
 
+```{r}
+instacart |>
+  group_by(aisle) |>
+  summarize(orders_from_aisle = n()) |>
+  mutate(
+    aisle_rank_by_order = min_rank(desc(orders_from_aisle))
+  ) |>
+  filter(aisle_rank_by_order < 2)
+```
 
+- Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. Arrange aisles sensibly, and organize your plot so others can read it.
 
+```{r}
+instacart |>
+  group_by(aisle) |>
+  summarize(orders_from_aisle = n()) |>
+  filter(orders_from_aisle > 10000) |>
+  ggplot(aes(x = fct_reorder(aisle, desc(orders_from_aisle)), y = orders_from_aisle)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = "aisle", y = "orders belonging to certain aisle")
+```
 
+- Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
+
+```{r}
+instacart |>
+  group_by(aisle, product_name) |>
+  summarize(number_of_orders = n()) |>
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) |>
+  mutate(
+    product_rank_in_aisle = min_rank(desc(number_of_orders))
+  ) |>
+  filter(product_rank_in_aisle < 4) |>
+  arrange(aisle, product_rank_in_aisle) |>
+  knitr::kable()
+```
+
+- Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
+```{r}
+instacart |>
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) |>
+  group_by(order_dow, product_name) |>
+  summarize(mean_hour_of_the_day = mean(order_hour_of_day)) |>
+  pivot_wider(
+    names_from = order_dow,
+    values_from = mean_hour_of_the_day
+  ) |>
+  rename(
+    mean_hour_of_Sunday = 2,
+    mean_hour_of_Monday = 3,
+    mean_hour_of_Tuesday = 4,
+    mean_hour_of_Wednesday = 5,
+    mean_hour_of_Thusday = 6,
+    mean_hour_of_Friday = 7,
+    mena_hour_of_Saturday = 8
+  ) |>
+  knitr::kable()
+```
 
 
 
