@@ -32,11 +32,22 @@ The dataset contains `r nrow(instacart)` rows and `r ncol(instacart)` columns. E
 instacart |>
   group_by(aisle) |>
   summarize(orders_from_aisle = n()) |>
+  nrow()
+```
+
+There are 134 aisles.
+
+```{r}
+instacart |>
+  group_by(aisle) |>
+  summarize(orders_from_aisle = n()) |>
   mutate(
     aisle_rank_by_order = min_rank(desc(orders_from_aisle))
   ) |>
   filter(aisle_rank_by_order < 2)
 ```
+
+The aisle with the most items are fresh vegetables.
 
 - Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. Arrange aisles sensibly, and organize your plot so others can read it.
 
@@ -88,6 +99,54 @@ instacart |>
   ) |>
   knitr::kable()
 ```
+
+# Problem 2
+
+## Data cleaning
+
+First, import dataset.
+
+```{r}
+data("brfss_smart2010")
+```
+
+Check and clean the variable names:
+
+```{r}
+colnames(brfss_smart2010)
+brfss_smart2010 = janitor::clean_names(brfss_smart2010)
+```
+
+Focus on the "Overall Health" topic.
+
+```{r}
+brfss_smart2010 |>
+  group_by(topic) |>
+  summarize(n_topic = n()) |>
+  filter(topic == "Overall Health")
+
+brfss_smart2010_overall_health =
+  brfss_smart2010 |>
+    filter(topic == "Overall Health")
+```
+
+Include only responses from "Excellent" to "Poor":
+
+```{r}
+brfss_smart2010_overall_health |>
+  group_by(response) |>
+  summarize(n_response = n())
+```
+
+Organize responses as a factor taking levels ordered from "Poor" to "Excellent":
+
+```{r}
+brfss_smart2010_overall_health =
+  brfss_smart2010_overall_health |>
+    mutate(response = factor(brfss_smart2010_overall_health$response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent")))
+```
+
+
 
 
 
