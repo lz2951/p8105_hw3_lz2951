@@ -146,7 +146,32 @@ brfss_smart2010_overall_health =
     mutate(response = factor(brfss_smart2010_overall_health$response, levels = c("Poor", "Fair", "Good", "Very good", "Excellent")))
 ```
 
+## Some questions about dataset
 
+- In 2002, which states were observed at 7 or more locations? What about in 2010?
+
+```{r}
+brfss_smart2010_overall_health |>
+  group_by(year, locationabbr, locationdesc) |>
+  summarize(n_location = n()) |>
+  group_by(year, locationabbr) |>
+  summarize(n_location_in_state = n()) |>
+  filter(n_location_in_state >= 7, year %in% c(2002, 2010)) |>
+  arrange(year) |>
+  knitr::kable()
+```
+
+- Construct a dataset that is limited to Excellent responses, and contains, year, state, and a variable that averages the data_value across locations within a state. Make a “spaghetti” plot of this average value over time within a state (that is, make a plot showing a line for each state across years – the geom_line geometry and group aesthetic will help). 
+
+```{r}
+
+```
+
+- Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
+
+```{r}
+
+```
 
 
 
