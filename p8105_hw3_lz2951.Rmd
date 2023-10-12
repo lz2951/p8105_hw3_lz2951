@@ -164,14 +164,29 @@ brfss_smart2010_overall_health |>
 - Construct a dataset that is limited to Excellent responses, and contains, year, state, and a variable that averages the data_value across locations within a state. Make a “spaghetti” plot of this average value over time within a state (that is, make a plot showing a line for each state across years – the geom_line geometry and group aesthetic will help). 
 
 ```{r}
-
+brfss_smart2010_overall_health |>
+  filter(response == "Excellent") |>
+  select(year, state = locationabbr, data_value) |>
+  group_by(year, state) |>
+  summarize(average_data_value = mean(data_value, na.rm = TRUE)) |>
+  ggplot(aes(x = year, y = average_data_value, group = state, color = state)) +
+  geom_line() +
+  xlab("Year") +
+  ylab("Average of the data_value across locations within a state") +
+  ggtitle("Plot of Average data_value over time within each state")
 ```
 
 - Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
 ```{r}
-
+brfss_smart2010_overall_health |>
+  filter(year %in% c(2006, 2010), locationabbr == "NY") |>
+  ggplot(aes(x = response, y = data_value)) +
+  geom_violin(aes(fill = response), alpha = 0.5) +
+  facet_grid(~year) +
+  ggtitle("Plot Showing Distribution of data_value for Response in NY for the years 2006 and 2010")
 ```
+
 
 
 
