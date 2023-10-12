@@ -10,6 +10,7 @@ output: github_document
 ```{r}
 library(p8105.datasets)
 library(tidyverse)
+library(ggrepel)
 ```
 
 # Problem 1
@@ -161,6 +162,9 @@ brfss_smart2010_overall_health |>
   knitr::kable()
 ```
 
+According to the resulting table, in 2002, states observed at 7 or more locations are as following:
+CT, FL, MA, NC, NJ, PA. In 2010, those states are CA, CO, FL, MA, MD, NC, NE, NJ, NY, OH, PA, SC, TX and WA.
+
 - Construct a dataset that is limited to Excellent responses, and contains, year, state, and a variable that averages the data_value across locations within a state. Make a “spaghetti” plot of this average value over time within a state (that is, make a plot showing a line for each state across years – the geom_line geometry and group aesthetic will help). 
 
 ```{r}
@@ -176,6 +180,8 @@ brfss_smart2010_overall_health |>
   ggtitle("Plot of Average data_value over time within each state")
 ```
 
+According to the resulting plot, DC had the highest average data_values in most of years between 2002 and 2010, while WV had the lowest average data_values in most of years.
+
 - Make a two-panel plot showing, for the years 2006, and 2010, distribution of data_value for responses (“Poor” to “Excellent”) among locations in NY State.
 
 ```{r}
@@ -186,6 +192,8 @@ brfss_smart2010_overall_health |>
   facet_grid(~year) +
   ggtitle("Plot Showing Distribution of data_value for Response in NY for the years 2006 and 2010")
 ```
+
+According to the resulting plots, the distributions of data_value for response in NY are similar in the years of 2006 and 2010.
 
 
 
