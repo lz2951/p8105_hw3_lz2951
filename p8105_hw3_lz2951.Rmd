@@ -234,6 +234,18 @@ nhanes_data =
   inner_join(demographic, accelerometer, by = "seqn")
 ```
 
+## Analysis of total activity
 
+```{r}
+nhanes_data |>
+  mutate(total_activity = rowSums(across(min1 : min1440))) |>
+  ggplot(aes(x = age, y = total_activity, color = sex)) +
+  geom_point() +
+  geom_smooth() +
+  facet_grid(~education) +
+  ggtitle("24-hour Total Activity over Age for Different Sex and Education Levels")
+```
+
+Based on the results plot, for participants with an education equivalent to or more than high school, female's total activity is higher than male's at almost all ages. For participants with an education less than high school, female's total activity is only higher than male's before the age of 40. In all educational levels, the total activity curves for both genders look similar in shape.
 
 
