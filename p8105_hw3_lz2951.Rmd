@@ -248,4 +248,23 @@ nhanes_data |>
 
 Based on the results plot, for participants with an education equivalent to or more than high school, female's total activity is higher than male's at almost all ages. For participants with an education less than high school, female's total activity is only higher than male's before the age of 40. In all educational levels, the total activity curves for both genders look similar in shape.
 
+## Analysis of activity over the course of the day
 
+```{r}
+nhanes_data |>
+  pivot_longer(
+    min1 : min1440, names_to = "time_min", 
+    values_to = "activity_min",
+    names_prefix = "min",
+    names_transform = list(time_min = as.integer)
+  ) |>
+  ggplot(aes(x = time_min, y = activity_min, color = sex)) +
+  geom_point(shape = ".", alpha = 0.25) +
+  facet_grid(~education) +
+  geom_smooth() +
+  xlab("time/min") +
+  ylab("activity") +
+  ggtitle("Plot of Inspection Activity over the Course of the Day")
+```
+
+According to the results, it can be observed that, regardless of the education level, the curves of activity over time course for both male and female are highly similar. This suggests that people's daily activity patterns tend to be consistent regardless of their education level or gender. In the Less than high school and High school equivalent education levels, the curves for both genders almost overlap. In the More than high school education level, female shows slightly higher activity level in non-sleep period of time.
