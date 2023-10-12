@@ -10,7 +10,6 @@ output: github_document
 ```{r}
 library(p8105.datasets)
 library(tidyverse)
-library(ggrepel)
 ```
 
 # Problem 1
@@ -195,8 +194,45 @@ brfss_smart2010_overall_health |>
 
 According to the resulting plots, the distributions of data_value for response in NY are similar in the years of 2006 and 2010.
 
+# Problem 3
 
+## Load, tidy, merge and orgnize the data sets
 
+Import data and exclude participants less than 21 years of age and those with missing demographic data.
+
+```{r}
+demographic =
+  read_csv(file = "./data/nhanes_covar.csv", skip = 4) |>
+  janitor::clean_names() |>
+  drop_na() |>
+  filter(age >= 21)
+
+accelerometer =
+  read_csv(file = "./data/nhanes_accel.csv") |>
+  janitor::clean_names()
+```
+
+Encode data with reasonable variable classes.
+
+```{r}
+demographic =
+  mutate(
+    demographic, 
+    sex = factor(sex, levels = c(1, 2), labels = c("male", "female")), 
+    education = factor(education, levels = c(1, 2, 3), 
+                       labels = c("Less than high school", 
+                                  "High school equivalent", 
+                                  "More than high school"),
+                       ordered = TRUE)
+  )
+```
+
+Merge two data sets.
+
+```{r}
+nhanes_data = 
+  inner_join(demographic, accelerometer, by = "seqn")
+```
 
 
 
